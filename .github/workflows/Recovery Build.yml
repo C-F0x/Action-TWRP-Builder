@@ -46,8 +46,6 @@ jobs:
   build:
     if: github.event.repository.owner.id == github.event.sender.id
     runs-on: ubuntu-24.04
-    env:
-      libfscrypttwrp: libfscrypt
     permissions:
       contents: write
     steps:
@@ -156,7 +154,7 @@ jobs:
 
     - name: Building recovery
       run: |
-        echo "Using library: $libfscrypttwrp"
+        export LIBFSCRYPTWRP_OVERRIDE=libfscrypt
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
         lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
